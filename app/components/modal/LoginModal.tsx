@@ -38,9 +38,10 @@ const LoginModal = () => {
             password:''
         }
     });
-    const onClose = ()=>{
-       
-    }
+    const toggle = useCallback(()=>{
+        loginModal.onClose();
+        registerModal.onOpen();
+    },[loginModal, registerModal])
 
     const onSubmit: SubmitHandler<FieldValues>= (data)=>{
         setIsLoading(true);
@@ -92,15 +93,15 @@ const LoginModal = () => {
             <hr/>
             <Button
             outline
-            label='Daftar dengan Google'
+            label='Masuk dengan Google'
             icon={FcGoogle}
-            onClick={()=>{}}/>
+            onClick={()=>signIn('google')}/>
 
              <Button
             outline
-            label='Daftar dengan Github'
+            label='Masuk dengan Github'
             icon={AiFillGithub}
-            onClick={()=>{}}/>
+            onClick={()=>signIn('github')}/>
 
             <div
             className='
@@ -115,7 +116,7 @@ const LoginModal = () => {
                     className='text-neutral-800
                     hover:underline
                     cursor-pointer'
-                    onClick={loginModal.onClose}>Daftar</div>
+                    onClick={toggle}>Daftar</div>
                     
                 </div>
             </div>

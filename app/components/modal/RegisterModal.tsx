@@ -16,10 +16,14 @@ import Heading from '../Heading';
 import Input from '../inputs/Input';
 import {toast} from 'react-hot-toast';
 import Button from '../Button';
+import { signIn } from 'next-auth/react';
+import useLoginModal from '@/app/hooks/useLoginModal';
 
 const RegisterModal = () => {
     const registerModal = useRegisterModal();
     const [isLoading, setIsLoading] = useState(false);
+    const loginModal = useLoginModal();
+
 
     const {
         register,
@@ -49,6 +53,11 @@ const RegisterModal = () => {
             toast.success('Selamat akun anda telah terdaftar')
         })
     }
+
+    const toggle = useCallback(()=>{
+        registerModal.onClose();
+        loginModal.onOpen();
+    },[registerModal, loginModal])
 
     const bodyContent = (
         <div className='flex flex-col gap-4'>
@@ -87,13 +96,13 @@ const RegisterModal = () => {
             outline
             label='Daftar dengan Google'
             icon={FcGoogle}
-            onClick={()=>{}}/>
+            onClick={()=>signIn('google')}/>
 
              <Button
             outline
             label='Daftar dengan Github'
             icon={AiFillGithub}
-            onClick={()=>{}}/>
+            onClick={()=>signIn('github')}/>
 
             <div
             className='
@@ -108,7 +117,7 @@ const RegisterModal = () => {
                     className='text-neutral-800
                     hover:underline
                     cursor-pointer'
-                    onClick={registerModal.onClose}>Login</div>
+                    onClick={toggle}>Login</div>
                     
                 </div>
             </div>
