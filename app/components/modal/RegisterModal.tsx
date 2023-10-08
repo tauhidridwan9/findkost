@@ -35,6 +35,7 @@ const RegisterModal = () => {
         defaultValues:{
             name:'',
             email:'',
+            phone:'',
             password:''
         }
     });
@@ -74,6 +75,13 @@ const RegisterModal = () => {
              <Input
             id="name"
             label="Nama"
+            disabled={isLoading}
+            register={register}
+            errors={errors}
+            required/>
+            <Input
+            id="phone"
+            label="No.WhatsApp"
             disabled={isLoading}
             register={register}
             errors={errors}

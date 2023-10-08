@@ -9,6 +9,7 @@ import LoginModal from "../modal/LoginModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { signOut } from "next-auth/react";
 import { SafeUser } from "@/app/types";
+import useRentModal from "@/app/hooks/useRentModal";
 
 
 interface UserMenuProps {
@@ -18,6 +19,7 @@ interface UserMenuProps {
 const UserMenu: React.FC<UserMenuProps> = ({
     currentUser
 }) => {
+    const rentModal = useRentModal();
     const registerModal = useRegisterModal();
 
     const loginModal = useLoginModal();
@@ -27,6 +29,12 @@ const UserMenu: React.FC<UserMenuProps> = ({
     const toggleOpen= useCallback(()=> {
         setIsOpen((value)=> !value);
     },[]);
+
+    const onRent = useCallback(()=>{
+        if(!currentUser){
+            return loginModal.onOpen();
+        }  rentModal.onOpen();
+    },[currentUser, loginModal,rentModal])
     return ( 
         <div
         className="relative">
@@ -42,7 +50,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                 transition
                 cursor-pointer
                 "
-                onClick = {()=>{}}
+                onClick = {onRent}
                 >Home</div>
                 <div
                 onClick={toggleOpen}
@@ -96,7 +104,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                         onClick={()=>{}}
                         label="My properties"/>
                          <MenuItem
-                        onClick={()=>{}}
+                        onClick={rentModal.onOpen}
                         label="My Home"/>
 
                         <hr/>
